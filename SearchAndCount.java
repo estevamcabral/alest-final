@@ -17,7 +17,7 @@ public class SearchAndCount {
     private long tempoDeBuscaLista;
 
     private WordTree arvoreDePesquisa = new WordTree();
-    private List<String> listaArvoreAux = new ArrayList<>();
+    private List<Palavra> listaArvoreAux = new ArrayList<>();
     private long tempoDeBuscaArvore;
 
     public SearchAndCount(String caracteres) {
@@ -37,7 +37,7 @@ public class SearchAndCount {
                 String[] aux = line.split(";");
                 Palavra p = new Palavra(aux[0], aux[1]);
                 listaParaBusca.add(p);
-                arvoreDePesquisa.addWord(p.getPalavra());
+                arvoreDePesquisa.addWord(p);
                 line = reader.readLine();
             }
         } catch (IOException e) {
@@ -80,7 +80,7 @@ public class SearchAndCount {
         return tempoDeBuscaArvore;
     }
 
-    public List<String> getListArvore() {
+    public List<Palavra> getListArvore() {
         return listaArvoreAux;
     }
 

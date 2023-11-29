@@ -1,7 +1,9 @@
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 public class WordTree {
@@ -75,7 +77,7 @@ public class WordTree {
          */
         public CharNode findChildChar(char character) {
             for (CharNode child : children) {
-                if (Character.toLowerCase(child.character) == character) {
+                if (Character.toLowerCase(child.character) == Character.toLowerCase(character)) {
                     return child;
                 }
             }
@@ -108,20 +110,23 @@ public class WordTree {
      * 
      * @param word
      */
-    public void addWord(String word) {
+    public void addWord(Palavra word) {
         if (root == null) {
-            root = new CharNode(word.charAt(0));
+            root = new CharNode(word.getPalavra().charAt(0));
             totalNodes++;
         }
+        Map<Character, CharNode> nodeMap = new HashMap<>();
+        nodeMap.put(root.character, root);
         CharNode currentNode = root;
-        for (int i = 0; i < word.length(); i++) {
-            char currentChar = word.charAt(i);
-            CharNode nextNode = currentNode.findChildChar(currentChar);
-            if (nextNode == null) {
-                nextNode = currentNode.addChild(currentChar, i == word.length() - 1);
-                totalNodes++;
+        for (int i = 0; i < word.getPalavra().length(); i++) {
+            char currentChar = word.getPalavra().charAt(i);
+            CharNode nextNode = currentNode.addChild(currentChar, i == word.getPalavra().length() - 1);
+            totalNodes++;
+            nodeMap.put(currentChar, nextNode);
+            currentNode = nodeMap.get(currentChar);
+            if (i == word.getPalavra().length() - 1) {
+                currentNode.significado = word.getSignificado();
             }
-            currentNode = nextNode;
         }
         totalWords++;
     }
@@ -169,8 +174,8 @@ public class WordTree {
         return node != null && node.isFinal;
     }
 
-    public List<String> searchAll(String prefix) {
-        List<String> result = new ArrayList<>();
+    public List<Palavra> searchAll(String prefix) {
+        List<Palavra> result = new ArrayList<>();
 
         // Encontrar o nodo correspondente ao último caracter do prefixo
         CharNode prefixNode = findCharNodeForWord(prefix);
@@ -184,7 +189,7 @@ public class WordTree {
                 CharNode currentNode = queue.poll();
 
                 if (currentNode.isFinal) {
-                    result.add(currentNode.getWord());
+                    result.add(new Palavra(currentNode.getWord(), currentNode.significado));
                 }
 
                 for (int i = 0; i < currentNode.getNumberOfChildren(); i++) {

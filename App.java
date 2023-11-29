@@ -39,8 +39,8 @@ public class App {
             if (search.getArvoreSize() > 0)
                 System.out.println("Palavras encontradas: ");
 
-            for (String palavra : search.getListArvore()) {
-                System.out.println(palavra);
+            for (Palavra palavra : search.getListArvore()) {
+                System.out.println(palavra.getPalavra() + " | " + palavra.getSignificado());
             }
 
             System.out.println(
