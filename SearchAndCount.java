@@ -4,7 +4,9 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class SearchAndCount {
 
@@ -14,14 +16,19 @@ public class SearchAndCount {
     private LinkedList<Palavra> listaAux = new LinkedList<>();
     private long tempoDeBuscaLista;
 
+    private WordTree arvoreDePesquisa = new WordTree();
+    private List<String> listaArvoreAux = new ArrayList<>();
+    private long tempoDeBuscaArvore;
+
     public SearchAndCount(String caracteres) {
         this.caracteresParaBusca = caracteres;
         this.tempoDeBuscaLista = 0;
-        lerArquivoParaLista();
+        lerArquivo();
         buscarPalavrasNaLista();
+        buscarPalavrasNaArvore();
     }
 
-    public void lerArquivoParaLista() {
+    public void lerArquivo() {
         Path path1 = Paths.get("dicionario.csv");
 
         try (BufferedReader reader = Files.newBufferedReader(path1, Charset.forName("UTF-8"))) {
@@ -30,6 +37,7 @@ public class SearchAndCount {
                 String[] aux = line.split(";");
                 Palavra p = new Palavra(aux[0], aux[1]);
                 listaParaBusca.add(p);
+                arvoreDePesquisa.addWord(p.getPalavra());
                 line = reader.readLine();
             }
         } catch (IOException e) {
@@ -48,6 +56,14 @@ public class SearchAndCount {
         this.tempoDeBuscaLista = intervalo;
     }
 
+    public void buscarPalavrasNaArvore() {
+        long inicio = System.nanoTime(); // Marca o início da execução
+        this.listaArvoreAux = arvoreDePesquisa.searchAll(caracteresParaBusca.toLowerCase());
+        long fim = System.nanoTime(); // Marca o fim da execução
+        long intervalo = fim - inicio;
+        this.tempoDeBuscaArvore = intervalo;
+    }
+
     public int getListSize() {
         return listaAux.size();
     }
@@ -60,4 +76,15 @@ public class SearchAndCount {
         return tempoDeBuscaLista;
     }
 
+    public long getTempoDeBuscaArvore() {
+        return tempoDeBuscaArvore;
+    }
+
+    public List<String> getListArvore() {
+        return listaArvoreAux;
+    }
+
+    public int getArvoreSize() {
+        return listaArvoreAux.size();
+    }
 }

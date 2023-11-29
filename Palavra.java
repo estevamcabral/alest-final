@@ -21,5 +21,4 @@ public class Palavra {
         return palavra + ": " + significado + "\n";
     }
 
-    
 }
