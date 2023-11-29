@@ -20,6 +20,9 @@ public class App {
                 caracteresParaBusca = sc.nextLine();
             }
             SearchAndCount search = new SearchAndCount(caracteresParaBusca);
+            System.out.println("");
+            System.out.println("-------------------------------------------------");
+            System.out.println("");
             System.out.println("Aguarde... A busca esta sendo feita na lista encadeada!");
 
             System.out.println("Busca realizada! foram encontradas " +
@@ -64,14 +67,21 @@ public class App {
                 System.out.print("Esta palavra nao esta na lista, por favor digite outra: ");
                 palavraParaSignificado = sc.nextLine();
             }
+            System.out.println("");
+            System.out.println("-------------------------------------------------");
+            System.out.println("");
             System.out.println("Significado buscado na estrutura lista! " + "Significado: "
                     + search.getSignificadoLista(palavraParaSignificado));
             System.out.println("Tempo de busca: " + search.getTempoDeBuscaListaSignificado() + " nanosegundos");
-
+            System.out.println("");
+            System.out.println("-------------------------------------------------");
+            System.out.println("");
             System.out.println("Significado buscado na estrutura arvore! " + "Significado: "
                     + search.getSignificadoArvore(palavraParaSignificado));
             System.out.println("Tempo de busca: " + search.getTempoDeBuscaArvoreSignificado() + " nanosegundos");
-
+            System.out.println("");
+            System.out.println("-------------------------------------------------");
+            System.out.println("");
             palavraParaSignificado = "";
             caracteresParaBusca = "";
         }
