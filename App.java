@@ -1,4 +1,6 @@
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
@@ -6,6 +8,8 @@ public class App {
 
         String caracteresParaBusca;
         Scanner sc = new Scanner(System.in);
+
+        List<String> listaParaVerificarSignificados = new ArrayList<>();
 
         while (true) {
             // Criando variável para busca
@@ -23,8 +27,10 @@ public class App {
             System.out.println("Palavras encontradas: ");
 
             for (Palavra palavra : search.getList()) {
-                System.out.println(palavra.getPalavra() + " | " + palavra.getSignificado());
+                System.out.println(palavra.getPalavra());
+                listaParaVerificarSignificados.add(palavra.getPalavra());
             }
+
             System.out.println("Tempo para busca de palavras na lista encadeada: " +
                     search.getTempoDeBuscaLista()
                     + " nanosegundos.");
@@ -40,7 +46,8 @@ public class App {
                 System.out.println("Palavras encontradas: ");
 
             for (Palavra palavra : search.getListArvore()) {
-                System.out.println(palavra.getPalavra() + " | " + palavra.getSignificado());
+                System.out.println(palavra.getPalavra());
+                listaParaVerificarSignificados.add(palavra.getPalavra());
             }
 
             System.out.println(
@@ -49,6 +56,23 @@ public class App {
             System.out.println("");
             System.out.println("-------------------------------------------------");
             System.out.println("");
+
+            String palavraParaSignificado;
+            System.out.print("Escolha uma palavra da lista retornada: ");
+            palavraParaSignificado = sc.nextLine();
+            while (!listaParaVerificarSignificados.contains(palavraParaSignificado)) {
+                System.out.print("Esta palavra nao esta na lista, por favor digite outra: ");
+                palavraParaSignificado = sc.nextLine();
+            }
+            System.out.println("Significado buscado na estrutura lista! " + "Significado: "
+                    + search.getSignificadoLista(palavraParaSignificado));
+            System.out.println("Tempo de busca: " + search.getTempoDeBuscaListaSignificado() + " nanosegundos");
+
+            System.out.println("Significado buscado na estrutura arvore! " + "Significado: "
+                    + search.getSignificadoArvore(palavraParaSignificado));
+            System.out.println("Tempo de busca: " + search.getTempoDeBuscaArvoreSignificado() + " nanosegundos");
+
+            palavraParaSignificado = "";
             caracteresParaBusca = "";
         }
     }

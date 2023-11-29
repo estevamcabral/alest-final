@@ -15,15 +15,28 @@ public class SearchAndCount {
     private LinkedList<Palavra> listaParaBusca = new LinkedList<>();
     private LinkedList<Palavra> listaAux = new LinkedList<>();
     private long tempoDeBuscaLista;
+    private long tempoDeBuscaListaSignificado;
 
     private WordTree arvoreDePesquisa = new WordTree();
     private List<Palavra> listaArvoreAux = new ArrayList<>();
     private long tempoDeBuscaArvore;
+    private long tempoDeBuscaArvoreSignificado;
+
+    public long getTempoDeBuscaArvoreSignificado() {
+        return tempoDeBuscaArvoreSignificado;
+    }
+
+    public long getTempoDeBuscaListaSignificado() {
+        return tempoDeBuscaListaSignificado;
+    }
 
     public SearchAndCount(String caracteres) {
         this.caracteresParaBusca = caracteres;
         this.tempoDeBuscaLista = 0;
-        lerArquivo();
+        this.tempoDeBuscaArvore = 0;
+        this.tempoDeBuscaArvoreSignificado = 0;
+        this.tempoDeBuscaListaSignificado = 0;
+        this.lerArquivo();
         buscarPalavrasNaLista();
         buscarPalavrasNaArvore();
     }
@@ -86,5 +99,32 @@ public class SearchAndCount {
 
     public int getArvoreSize() {
         return listaArvoreAux.size();
+    }
+
+    public String getSignificadoLista(String palavra) {
+        String significado = "";
+        long inicio = 0;
+        long fim = 0;
+        long intervalo = 0;
+        inicio = System.nanoTime();
+        for (Palavra p : listaParaBusca) {
+            if (p.getPalavra().equals(palavra)) {
+                fim = System.nanoTime();
+                significado = p.getSignificado();
+            }
+            intervalo = fim - inicio;
+            this.tempoDeBuscaListaSignificado = intervalo;
+        }
+        return significado;
+    }
+
+    public String getSignificadoArvore(String palavra) {
+        String significado = "";
+        long inicio = System.nanoTime(); // Marca o início da execução
+        significado = arvoreDePesquisa.getSignificado(palavra);
+        long fim = System.nanoTime(); // Marca o fim da execução\
+        long intervalo = fim - inicio;
+        this.tempoDeBuscaArvoreSignificado = intervalo;
+        return significado;
     }
 }
