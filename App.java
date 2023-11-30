@@ -27,7 +27,8 @@ public class App {
 
             System.out.println("Busca realizada! foram encontradas " +
                     search.getListSize() + " palavra(s).");
-            System.out.println("Palavras encontradas: ");
+            if (search.getListSize() > 0)
+                System.out.println("Palavras encontradas: ");
 
             for (Palavra palavra : search.getList()) {
                 System.out.println(palavra.getPalavra());
@@ -59,30 +60,31 @@ public class App {
             System.out.println("");
             System.out.println("-------------------------------------------------");
             System.out.println("");
-
-            String palavraParaSignificado;
-            System.out.print("Escolha uma palavra da lista retornada: ");
-            palavraParaSignificado = sc.nextLine();
-            while (!listaParaVerificarSignificados.contains(palavraParaSignificado)) {
-                System.out.print("Esta palavra nao esta na lista, por favor digite outra: ");
+            if (listaParaVerificarSignificados.size() > 0) {
+                String palavraParaSignificado;
+                System.out.print("Escolha uma palavra da lista retornada: ");
                 palavraParaSignificado = sc.nextLine();
+                while (!listaParaVerificarSignificados.contains(palavraParaSignificado)) {
+                    System.out.print("Esta palavra nao esta na lista, por favor digite outra: ");
+                    palavraParaSignificado = sc.nextLine();
+                }
+                System.out.println("");
+                System.out.println("-------------------------------------------------");
+                System.out.println("");
+                System.out.println("Significado buscado na estrutura lista! " + "Significado: "
+                        + search.getSignificadoLista(palavraParaSignificado));
+                System.out.println("Tempo de busca: " + search.getTempoDeBuscaListaSignificado() + " nanosegundos");
+                System.out.println("");
+                System.out.println("-------------------------------------------------");
+                System.out.println("");
+                System.out.println("Significado buscado na estrutura arvore! " + "Significado: "
+                        + search.getSignificadoArvore(palavraParaSignificado));
+                System.out.println("Tempo de busca: " + search.getTempoDeBuscaArvoreSignificado() + " nanosegundos");
+                palavraParaSignificado = "";
+                System.out.println("");
+                System.out.println("-------------------------------------------------");
+                System.out.println("");
             }
-            System.out.println("");
-            System.out.println("-------------------------------------------------");
-            System.out.println("");
-            System.out.println("Significado buscado na estrutura lista! " + "Significado: "
-                    + search.getSignificadoLista(palavraParaSignificado));
-            System.out.println("Tempo de busca: " + search.getTempoDeBuscaListaSignificado() + " nanosegundos");
-            System.out.println("");
-            System.out.println("-------------------------------------------------");
-            System.out.println("");
-            System.out.println("Significado buscado na estrutura arvore! " + "Significado: "
-                    + search.getSignificadoArvore(palavraParaSignificado));
-            System.out.println("Tempo de busca: " + search.getTempoDeBuscaArvoreSignificado() + " nanosegundos");
-            System.out.println("");
-            System.out.println("-------------------------------------------------");
-            System.out.println("");
-            palavraParaSignificado = "";
             caracteresParaBusca = "";
         }
     }
